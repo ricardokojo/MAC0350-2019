@@ -197,3 +197,60 @@ A restrição de participação de uma superclasse em relação às suas subclas
 Pode ocorrer `herança múltipla`.
 
 ## Capítulo 7 - Linguagens Formais de Consulta
+
+A **álgebra relacional** contempla um conjunto de operações que permitem especificar consultas sob relações.
+
+As operações são divididas em dois grupos:
+
+* Operações da Teoria de Conjuntos;
+* Operações desenvolvidas especificamente para Bancos de Dados Relacionais.
+
+### Operador SELECT - σ
+
+Seleciona **tuplas**, segundo as condições dadas.
+
+As condições podem utilizar valor constante, nome do atributo, operadores relacionais (=, <, ≤, ≥, ≠), operadores lógicos (AND, OR, NOT).
+
+Propriedades:
+
+* Operador unário (seleciona tuplas de apenas uma relação);
+* Grau da relação resultante é igual ao da original;
+* Comutativa.
+
+### Operador PROJECT - π
+
+Seleciona **colunas**, **removendo duplicatas**.
+
+Propriedades:
+
+* Grau da relação resultante é menor ou igual ao da original;
+* NÃO é comutativa.
+
+### Operações UNIÃO, INTERSECÇÃO, DIFERENÇA e PRODUTO CARTESIANO
+
+São operações da teoria de conjuntos.
+
+### Operador JOIN - ⊳⊲
+
+Usado para combinar informações de duas ou mais relações. Pode ser interpretado como um **PRODUTO CARTESIANO seguido de um SELECT**.
+
+#### EQUIJOIN
+
+JOIN com operação de igualdade. Num EQUIJOIN há pares de atributos duplicados.
+
+#### NATURAL JOIN - *
+
+EQUIJOIN seguido da remoção de atributos duplicados desnecessários.
+
+### Operador DIVISION - ÷
+
+### Sequência de operações, relações intermediárias, renomeação de atributos
+
+### Funções de agregação - ℑ
+
+Funções que recebem um conjunto de tuplas e retornam um único valor:
+
+* SUM;
+* AVERAGE;
+* MAX;
+* MIN.
