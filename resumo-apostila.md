@@ -1,3 +1,42 @@
+# Resumo - Apostila
+
+## Capítulo 4 - Modelagem de dados usando o Modelo-Entidade Relacionamento (MER)
+
+MER - modelo de dados conceitual de alto-nível
+
+* Entidade: unidade básica que o MER representa
+* Atributo: propriedades de uma entidade
+  * Simples/atômico ou composto
+  * Univalorado ou multivalorado
+  * Derivado (ex: dt_nasc e idade)
+  * nullable
+* Tipo de identidade: conjunto de entidades com os mesmos atributos;
+* Atributo-chave;
+
+* Relacionamento:
+* Grau de um tipo de relacionamento:
+  * 2 - binário;
+  * 3 - ternário;
+  * **1 ternário x 3 binários**.
+* Razão de cardinalidade:
+  * 1:1
+  * 1:N
+  * M:N
+* Restrições:
+  * Restrição de participação: total ou parcial (dependência existencial);
+  * Restrição estrutural: min e max
+    * Se `min >= 0`, parcial
+    * Senão, se `min > 0`, total
+
+* Atributos em tipos de relacionamento;
+* Entidade fraca:
+  * Não possui atributo-chave;
+  * Relacionamento de identificação: entre a entidade fraca e o proprietário da identificação
+  * Sempre possui restrição de participação total
+  * Possui uma chave parcial.
+
+* Diagrama Entidade-Relacionamento (DER)
+
 ## Capítulo 5 - O Modelo de Dados Relacional
 
 ### 5.1 Conceitos do Modelo Relacional
