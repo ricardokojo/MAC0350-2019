@@ -4,36 +4,39 @@
 
 MER - modelo de dados conceitual de alto-nível
 
-* `Entidade`: unidade básica que o MER representa
-* `Atributo`: propriedades de uma entidade
-  * Simples/atômico ou composto
-  * Univalorado ou multivalorado
-  * Derivado (ex: dt_nasc e idade)
-  * nullable
-* `Tipo de identidade`: conjunto de entidades com os mesmos atributos;
-* `Atributo-chave`;
+* Entidades:
+  * `Entidade`: unidade básica que o MER representa
+  * `Atributo`: propriedades de uma entidade
+    * **simples**/atômico ou **composto**
+    * **univalorado** ou **multivalorado**
+    * **derivado** (*ex*: dt_nasc e idade)
+    * **nullable**
+  * `Tipo de identidade`: conjunto de entidades com os mesmos atributos;
+  * `Atributo-chave`;
 
 * `Relacionamento`:
-* `Grau de um tipo de relacionamento`:
-  * 2 - **binário**;
-  * 3 - **ternário**;
-  * **1 ternário x 3 binários**.
-* `Razão de cardinalidade`:
-  * **1:1**
-  * **1:N**
-  * **M:N**
-* Restrições:
-  * `Restrição de participação`: total ou parcial (dependência existencial);
-  * `Restrição estrutural`: min e max
-    * Se `min >= 0`, parcial
-    * Senão, se `min > 0`, total
-
-* Atributos em tipos de relacionamento;
-* `Entidade fraca`:
-  * **Não** possui atributo-chave;
-  * `Relacionamento de identificação`: entre a *entidade fraca* e o **proprietário da identificação**
-  * **Sempre** possui restrição de *participação total*
-  * Possui uma **chave parcial**.
+  * Relacionamento recursivo;
+  * `Grau de um tipo de relacionamento`:
+    * 2 - **binário**;
+    * 3 - **ternário**;
+    * **1 ternário x 3 binários**.
+  * `Razão de cardinalidade`:
+    * **1:1**
+    * **1:N**
+    * **M:N**
+  * Restrições:
+    * `Restrição de participação`: total ou parcial (dependência existencial);
+    * `Restrição estrutural`: min e max
+      * Se `min >= 0`, parcial
+      * Senão, se `min > 0`, total
+  * Atributos em tipos de relacionamento:
+    * Em 1:1, pode ser colocado em qualquer lado;
+    * Em 1:N, pode ser colocado do lano **N**.
+  * `Entidade fraca`:
+    * **Não** possui atributo-chave;
+    * `Relacionamento de identificação`: entre a *entidade fraca* e o     **proprietário da identificação**
+    * **Sempre** possui restrição de *participação total*
+    * Possui uma **chave parcial**.
 
 * Diagrama Entidade-Relacionamento (DER)
 
@@ -95,21 +98,102 @@ Restrições de integridade semânticas
 
 Quando aplicadas, devem ser verificadas as `RIs`.
 
-## 6 Mapeamento do MER para o Modelo de Dados Relacional
+## Capítulo 6 - Mapeamento do MER para o Modelo de Dados Relacional + Slides sobre MER-X
 
 `MER` = Modelo Entidade-Relacionamento
+
+`MER-X` = Modelo Entidade-Relacionamento Extendido, que adiciona as abstrações de `agregação` e `generalização` / `especialização`
 
 `DER` = Diagrama Entidade-Relacionamento
 
 Passo a passo:
 
 1. Mapeamento de entidade regular
+   * Para cada entidade, crie uma relação (tabela);
+   * Adicione *atributos simples*;
+   * Adicione as partes simples dos *compostos*;
+   * Adicione *atributo-chave* como *chave-primária*.
 2. Mapeamento de entidade fraca
+   * Para cada entidade fraca, cria uma relação (tabela);
+   * Adicione *atributos simples*;
+   * Adicione as partes simples dos *compostos*;
+   * Adicione a chave-primária do *proprietário de identificação* como *chave-estrangeira*;
+   * A *chave-primária da relação* é a combinação da *chave-estrangeira* com a *chave-parcial*.
 3. Mapeamento de relacionamentos binários 1:1
+   * Para cada relacionamento binário 1:1, identifique entidades S e T que participam do relacionamento;
+   * Escolha uma delas (S no exemplo) e adicione como *chave-estrangeira* a chave-primária da outra (é melhor escolher o tipo de entidade com participação total);
+   * Adicione os *atributos simples* do tipo de relacionamento à S.
 4. Mapeamento de relacionamentos binários 1:N
+   * Para cada relacionamento binário 1:N, identificar a *relação S que participa do lado N* do relacionamento;
+   * Adicione como *chave-estrangeira de S* a *chave-primária* do outro tipo de entidade;
+   * Adicione os *atributos simples* do tipo de relacionamento à S.
 5. Mapeamento de relacionamentos binários M:N
+   * Para cada relacionamento binário M:N, adicione uma nova relação S;
+   * Adicione como *chaves-estrangeiras* as *chaves-primárias dos dois tipos de entidades*. A *chave-primária de S* é a combinação dessas chaves-estrangeiras;
+   * Adicione os *atributos simples* do tipo de relacionamento à S.
 6. Mapeamento de atributo multivalorado
+   * Para cada atributo multivalorado A, crie uma nova relação R.
+   * Adicione o atributo A;
+   * Adicione como *chave-estrangeira* a chave-primária da relação que possui A como atributo;
+   * Caso A seja *multivalorado e composto*, inclua os *atributos simples* que o compõe.
 7. Mapeamento de relacionamentos N-ário
+   * Para cada relacionamento N-ário, adicione uma nova relação S;
+   * Adicione como *chaves-estrangeiras* as *chaves-primárias de todos os tipos de entidades* participantes. A *chave-primária de S* é a combinação dessas chaves-estrangeiras;
+   * Adicione os *atributos simples* do tipo de relacionamento à S.
+   * Adicione as partes simples dos *compostos*;
 8. Mapeamento de generalização/especialização
+   1. Relações múltiplas para classes e subclasses
+      * Crie uma relação para a *superclasse*.
+      * Para cada *subclasse*, crie uma relação usando a *chave-primária* da superclasse como chave-primária.
+      * **Funciona para qualquer especialização** (total ou parcial, disjuntas ou sobrepostas).
+   2. Relações múltiplas para subclasses
+      * Para cada *subclasse*, crie uma relação **com todos os atributos da superclasse**, usando a *chave-primária* da superclasse como chave-primária.
+      * **Funciona somente para especializações com subclasses totais** (total ou parcial, disjuntas ou sobrepostas).
+   3. Relação única com um atributo tipo
+      * Crie uma relação única L;
+      * Adicione todos os atributos da superclasse e de todas as subclasses;
+      * Adicione um atributo tipo, que indica à qual subclasse cada tupla pertence;
+      * **Funciona especializações disjuntas** (mas pode ter muitos valores null).
+   4. Relação única com múltiplos atributo tipo
+      * Crie uma relação única L;
+      * Adicione todos os atributos da superclasse e de todas as subclasses;
+      * Adicione um atributo booleano para cada subclasse, cuja função é indicar se a tupla pertence ou não a cada subclasse.
+      * **Funciona especializações sobreponíveis** (também funciona para disjuntas).
 9. Categoria (union type)
 10. Agregações
+
+### Agregação
+
+Uma abstração que permite construir objetos compostos a partir de outros objetos.
+
+No MER-X, a agregação ocorre de duas maneiras:
+
+* Agregando atributos à tipos de entidades e tipos de relacionamentos;
+* Combinar tipos de entidades relacionados por tipos de relacionamentos e compor um **tipo de entidade agregada**.
+
+#### 1ª forma de agregação
+
+Os tipos de entidades e relacionamentos são agregações de atributos.
+
+#### 2ª forma de agregação
+
+Há casos em que adicionar tipos de entidades ou tipos de relacionamentos é incorreto, pois não atende aos requisitos. Por exemplo: não é possível relacionar dois tipos de relacionamentos.
+
+Neste caso, podemos criar uma agregação de tipos de entidades e relacionamentos, criando uma abstração de alto nível (ou criar uma entidade fraca).
+
+### Generalização / Especialização
+
+Os tipos de entidades representam `classes`. Podemos pensar numa **hierarquia de classes**.
+
+Nesta *hierarquia de classes* há:
+
+* `Superclasses`: classe base ou classe pai;
+* `Subclasses`: classes derivadas ou filhas.
+
+`Sobreponível` ou `disjunto`.
+
+A restrição de participação de uma superclasse em relação às suas subclasses pode ser `parcial` ou `total`.
+
+Pode ocorrer `herança múltipla`.
+
+## Capítulo 7 - Linguagens Formais de Consulta
